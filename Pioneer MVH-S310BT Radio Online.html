@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Pioneer MVH-S310BT - Radio Online Multi-Emisoras</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Share+Tech+Mono&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #08090b;
+      background-image: 
+        radial-gradient(circle at 50% 20%, #1a1e27 0%, #08090b 80%),
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.25) 2px, rgba(0, 0, 0, 0.25) 4px);
+      color: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 820px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+
+    /* Botón flotante superior para copiar el código HTML fácilmente */
+    .top-actions {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: -4px;
+    }
+
+    .btn-copy-code {
+      background: rgba(255, 30, 39, 0.12);
+      border: 1px solid #ff1e27;
+      color: #ff4d57;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 10px rgba(255, 30, 39, 0.2);
+      transition: all 0.15s ease;
+      outline: none;
+    }
+
+    .btn-copy-code:hover {
+      background: #ff1e27;
+      color: #ffffff;
+      box-shadow: 0 0 16px #ff1e27;
+    }
+
+    .btn-copy-code:active {
+      transform: scale(0.95);
+    }
+
+    /* Chasis exterior Pioneer 1-DIN */
+    .pioneer-chassis {
+      width: 100%;
+      background: linear-gradient(180deg, #22252c 0%, #121418 50%, #0d0e11 100%);
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.95),
+        0 0 0 2px #2f333d,
+        inset 0 1px 2px rgba(255, 255, 255, 0.15);
+      position: relative;
+    }
+
+    /* Faceplate frontal estéreo */
+    .faceplate {
+      background: linear-gradient(180deg, #272a31 0%, #16181d 40%, #101115 100%);
+      border-radius: 10px;
+      border: 1px solid #383c46;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.85);
+    }
+
+    /* Línea roja LED de resplandor inferior */
+    .faceplate::after {
+      content: "";
+      position: absolute;
+      bottom: 6px;
+      left: 18px;
+      right: 18px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, #ff1e27 15%, #ff2a32 50%, #ff1e27 85%, transparent 100%);
+      box-shadow: 0 0 10px #ff1e27, 0 0 20px rgba(255, 30, 39, 0.5);
+      border-radius: 2px;
+      opacity: 0.95;
+      pointer-events: none;
+    }
+
+    /* PANEL IZQUIERDO: SRC + MUTE + Perilla Volumen */
+    .left-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2;
+    }
+
+    .side-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn-src, .btn-mute {
+      background: linear-gradient(180deg, #2e323b 0%, #191b20 100%);
+      border: 1px solid #434854;
+      color: #ff2a32;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-shadow: 0 0 8px rgba(255, 42, 50, 0.9);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      transition: all 0.12s ease;
+      outline: none;
+    }
+
+    .btn-src:hover, .btn-mute:hover {
+      border-color: #ff2a32;
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(255, 42, 50, 0.5);
+    }
+
+    .btn-src:active, .btn-mute:active {
+      transform: scale(0.94);
+    }
+
+    .btn-mute.is-muted {
+      background: #ff1e27;
+      color: #ffffff;
+      text-shadow: none;
+      box-shadow: 0 0 12px #ff1e27;
+    }
+
+    /* Perilla giratoria Pioneer */
+    .volume-assembly {
+      position: relative;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: #0e1013;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 18px rgba(255, 24, 34, 0.6),
+        inset 0 0 10px rgba(0, 0, 0, 0.95);
+      border: 2px solid #ff1e27;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .volume-assembly:active {
+      cursor: grabbing;
+    }
+
+    .volume-knob {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        #3e434f,
+        #1d1f25,
+        #4c5260,
+        #191b20,
+        #3e434f
+      );
+      border: 2px solid #14161b;
+      box-shadow:
+        0 5px 12px rgba(0, 0, 0, 0.9),
+        inset 0 1px 2px rgba(255, 255, 255, 0.3);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.05s ease-out;
+    }
+
+    .knob-indicator {
+      position: absolute;
+      top: 5px;
+      width: 3px;
+      height: 10px;
+      background: #ff2a32;
+      border-radius: 2px;
+      box-shadow: 0 0 8px #ff2a32;
+    }
+
+    .knob-center {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #2e323b, #121418);
+      border: 1px solid #414652;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: #b0b8c6;
+      letter-spacing: 0.4px;
+    }
+
+    /* PANEL CENTRAL: Pantalla LCD + Marca + Presets 1-6 */
+    .center-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+      z-index: 2;
+    }
+
+    .brand-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2px;
+    }
+
+    .pioneer-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: 2px;
+      color: #f0f3f8;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+
+    .model-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #949cae;
+      letter-spacing: 0.6px;
+    }
+
+    .badge-box {
+      border: 1px solid #5a6170;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 8px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* Pantalla LCD */
+    .lcd-bezel {
+      background: #060709;
+      border: 2px solid #2e323a;
+      border-radius: 8px;
+      padding: 4px;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.95);
+    }
+
+    .lcd-screen {
+      background: linear-gradient(180deg, #0b121c 0%, #070d15 100%);
+      border-radius: 5px;
+      padding: 10px 12px;
+      position: relative;
+      overflow: hidden;
+      min-height: 82px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: inset 0 0 15px rgba(0, 100, 255, 0.1);
+    }
+
+    .lcd-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(10, 15, 25, 0) 50%, rgba(0, 0, 0, 0.4) 50%),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+      background-size: 100% 3px, 3px 100%;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .lcd-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: #89b4fa;
+      z-index: 2;
+    }
+
+    .lcd-clock {
+      color: #e0edff;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px rgba(180, 215, 255, 0.8);
+    }
+
+    .lcd-indicators {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .ind-tag {
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 2px;
+      background: rgba(137, 180, 250, 0.1);
+      color: #61738d;
+      border: 1px solid rgba(137, 180, 250, 0.2);
+    }
+
+    .ind-tag.active {
+      color: #ffffff;
+      background: rgba(137, 180, 250, 0.25);
+      border-color: #89b4fa;
+      text-shadow: 0 0 8px #89b4fa;
+    }
+
+    .ind-tag.live-on {
+      color: #ff4d57;
+      background: rgba(255, 42, 50, 0.2);
+      border-color: #ff2a32;
+      text-shadow: 0 0 8px #ff2a32;
+      animation: pulseLive 1.4s infinite;
+    }
+
+    @keyframes pulseLive {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Visualizador principal marquee en pantalla LCD */
+    .lcd-main-display {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      margin: 3px 0;
+      z-index: 2;
+    }
+
+    .lcd-marquee-text {
+      display: inline-block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      color: #f0f7ff;
+      text-shadow: 0 0 12px rgba(180, 225, 255, 0.9);
+      padding-left: 100%;
+      animation: lcdScroll 14s linear infinite;
+    }
+
+    .lcd-marquee-text.static-text {
+      padding-left: 0;
+      animation: none;
+    }
+
+    @keyframes lcdScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .lcd-bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 10px;
+      z-index: 2;
+    }
+
+    .lcd-sub-info {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: #93c5fd;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .spectrum-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 18px;
+      padding-bottom: 1px;
+    }
+
+    .eq-bar {
+      width: 4px;
+      height: 3px;
+      background: #93c5fd;
+      box-shadow: 0 0 6px #60a5fa;
+      border-radius: 1px;
+      transition: height 0.08s ease;
+    }
+
+    /* Botones Presets 1-6 */
+    .preset-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+    }
+
+    .preset-btn {
+      background: linear-gradient(180deg, #2c3038 0%, #17191e 100%);
+      border: 1px solid #3f4450;
+      border-radius: 5px;
+      padding: 7px 2px;
+      color: #ff2a32;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      text-shadow: 0 0 6px rgba(255, 42, 50, 0.85);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+      transition: all 0.12s ease;
+      min-width: 0;
+      outline: none;
+    }
+
+    .preset-btn span.sub-lbl {
+      font-family: 'Inter', sans-serif;
+      font-size: 7.5px;
+      font-weight: 700;
+      color: #949cae;
+      text-shadow: none;
+      letter-spacing: 0.1px;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 0 2px;
+    }
+
+    .preset-btn:hover {
+      border-color: #ff2a32;
+      transform: translateY(-1px);
+    }
+
+    .preset-btn:active, .preset-btn.active-preset {
+      background: linear-gradient(180deg, #44171a 0%, #220b0d 100%);
+      border-color: #ff2a32;
+      box-shadow: 0 0 10px rgba(255, 42, 50, 0.6);
+      transform: translateY(1px);
+    }
+
+    .preset-btn.active-preset span.sub-lbl {
+      color: #ffffff;
+    }
+
+    /* PANEL DERECHO: Botón PLAY/PAUSE */
+    .right-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .play-button {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #353a44, #15171b);
+      border: 2px solid #ff1e27;
+      color: #ff2a32;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow:
+        0 0 18px rgba(255, 30, 39, 0.55),
+        0 6px 14px rgba(0, 0, 0, 0.85),
+        inset 0 1px 2px rgba(255, 255, 255, 0.25);
+      transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
+      outline: none;
+    }
+
+    .play-button:hover {
+      box-shadow:
+        0 0 25px rgba(255, 30, 39, 0.8),
+        0 8px 18px rgba(0, 0, 0, 0.9);
+    }
+
+    .play-button:active {
+      transform: scale(0.93);
+    }
+
+    .play-button.is-playing {
+      background: radial-gradient(circle at 30% 30%, #ff2a32, #940a11);
+      color: #ffffff;
+      border-color: #ff7a80;
+      box-shadow:
+        0 0 28px rgba(255, 42, 50, 0.9),
+        inset 0 1px 3px rgba(255, 255, 255, 0.5);
+    }
+
+    .play-icon {
+      width: 26px;
+      height: 26px;
+      fill: currentColor;
+    }
+
+    .play-label {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      margin-top: 2px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* BARRA DE VOLUMEN MÓVIL Y CONTROLES INFERIORES */
+    .mobile-vol-bar {
+      width: 100%;
+      background: #14161b;
+      border: 1px solid #2c3039;
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .vol-step-btn {
+      background: #232730;
+      border: 1px solid #3d4350;
+      color: #ff2a32;
+      font-weight: 900;
+      font-size: 16px;
+      width: 44px;
+      height: 38px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.1s ease;
+      outline: none;
+    }
+
+    .vol-step-btn:hover {
+      border-color: #ff2a32;
+    }
+
+    .vol-step-btn:active {
+      background: #ff2a32;
+      color: #fff;
+    }
+
+    .vol-slider-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .vol-slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #a0a8b8;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 7px;
+      background: #242832;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ff2a32;
+      box-shadow: 0 0 10px #ff2a32;
+      cursor: pointer;
+      border: 2px solid #ffffff;
+    }
+
+    /* LISTA DE EMISORAS INFORMATIVA */
+    .station-list-card {
+      width: 100%;
+      background: #101216;
+      border: 1px solid #232730;
+      border-radius: 12px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .station-item {
+      background: #181b22;
+      border: 1px solid #2b303c;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .station-item:hover {
+      border-color: #ff2a32;
+      background: #20242d;
+    }
+
+    .station-item.active-item {
+      border-color: #ff2a32;
+      background: rgba(255, 42, 50, 0.12);
+    }
+
+    .station-badge {
+      background: #ff2a32;
+      color: #ffffff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .station-details {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .station-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #e6ebf5;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .station-port {
+      font-size: 10px;
+      font-family: 'Share Tech Mono', monospace;
+      color: #838eab;
+    }
+
+    /* TOAST / NOTIFICACIÓN POPUP */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1a1e27;
+      border: 1px solid #ff2a32;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 42, 50, 0.4);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Adaptabilidad a dispositivos móviles */
+    @media (max-width: 680px) {
+      .faceplate {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 14px 12px;
+      }
+
+      .center-section {
+        order: 1;
+      }
+
+      .left-controls {
+        order: 2;
+        justify-content: space-between;
+      }
+
+      .right-controls {
+        order: 3;
+        position: absolute;
+        right: 14px;
+        bottom: 14px;
+      }
+
+      .play-button {
+        width: 66px;
+        height: 66px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Botón discreto superior para copiar el código HTML para Site.pro -->
+    <div class="top-actions">
+      <button class="btn-copy-code" id="btnCopyCode" title="Copiar todo el código HTML para usarlo en Site.pro">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        COPIAR CÓDIGO HTML
+      </button>
+    </div>
+
+    <!-- Carcasa Pioneer -->
+    <div class="pioneer-chassis">
+      <div class="faceplate">
+
+        <!-- IZQUIERDA: Botón SRC, MUTE y Perilla de Volumen -->
+        <div class="left-controls">
+          <div class="side-buttons">
+            <button class="btn-src" id="btnSrc" title="Cambiar Emisora (SRC)">SRC</button>
+            <button class="btn-mute" id="btnMute" title="Silenciar / Activar Audio">MUTE</button>
+          </div>
+
+          <div class="volume-assembly" id="volumeDial" title="Gira o desliza verticalmente para cambiar volumen">
+            <div class="volume-knob" id="volumeKnob">
+              <div class="knob-indicator"></div>
+              <div class="knob-center" id="knobVolText">80</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CENTRO: Marca + Pantalla LCD + Teclas 1 al 6 -->
+        <div class="center-section">
+          <div class="brand-bar">
+            <div class="pioneer-logo">Pioneer</div>
+            <div class="model-badges">
+              <span>MVH-S310BT</span>
+              <span class="badge-box">WEB STREAM</span>
+            </div>
+          </div>
+
+          <div class="lcd-bezel">
+            <div class="lcd-screen" id="lcdScreen">
+              <div class="lcd-top-row">
+                <span class="lcd-clock" id="lcdClock">00:00</span>
+                <div class="lcd-indicators">
+                  <span class="ind-tag active" id="indStereo">ST</span>
+                  <span class="ind-tag" id="indSlot">CH 1</span>
+                  <span class="ind-tag" id="indLive">ON AIR</span>
+                </div>
+              </div>
+
+              <div class="lcd-main-display">
+                <div class="lcd-marquee-text static-text" id="lcdMainText">
+                  LA TOXICA RADIO
+                </div>
+              </div>
+
+              <div class="lcd-bottom-row">
+                <div class="lcd-sub-info" id="lcdSubText">PULSA PLAY PARA ESCUCHAR</div>
+                <div class="spectrum-bars" id="spectrumBars">
+                  <div class="eq-bar"></div>
+                  <div class="eq-bar"></div>
+                  <div class="eq-bar"></div>
+                  <div class="eq-bar"></div>
+                  <div class="eq-bar"></div>
+                  <div class="eq-bar"></div>
+                  <div class="eq-bar"></div>
+                  <div class="eq-bar"></div>
+                  <div class="eq-bar"></div>
+                  <div class="eq-bar"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Teclas de memoria 1 al 6 -->
+          <div class="preset-row">
+            <button class="preset-btn active-preset" data-index="0" title="1: LA TOXICA RADIO">
+              1<span class="sub-lbl">TOXICA</span>
+            </button>
+            <button class="preset-btn" data-index="1" title="2: BACHATA Y MAS">
+              2<span class="sub-lbl">BACHATA</span>
+            </button>
+            <button class="preset-btn" data-index="2" title="3: SALSA Y SON">
+              3<span class="sub-lbl">SALSA</span>
+            </button>
+            <button class="preset-btn" data-index="3" title="4: POPULAR">
+              4<span class="sub-lbl">POPULAR</span>
+            </button>
+            <button class="preset-btn" data-index="4" title="5: POP 80 Y 90">
+              5<span class="sub-lbl">POP 80/90</span>
+            </button>
+            <button class="preset-btn" data-index="5" title="6: ROMANTICA">
+              6<span class="sub-lbl">ROMANTICA</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- DERECHA: Botón PLAY/PAUSE Principal -->
+        <div class="right-controls">
+          <button class="play-button" id="playBtn" aria-label="Reproducir o Pausar">
+            <svg class="play-icon" id="iconPlay" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <svg class="play-icon" id="iconPause" viewBox="0 0 24 24" style="display: none;">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+            <span class="play-label" id="playLabel">PLAY</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Barra deslizable inferior táctil -->
+    <div class="mobile-vol-bar">
+      <button class="vol-step-btn" id="volDown" title="Bajar volumen">−</button>
+      <div class="vol-slider-wrap">
+        <div class="vol-slider-header">
+          <span>VOLUMEN MASTER</span>
+          <span id="volPercentLabel">80%</span>
+        </div>
+        <input type="range" id="volSlider" min="0" max="100" value="80" />
+      </div>
+      <button class="vol-step-btn" id="volUp" title="Subir volumen">+</button>
+    </div>
+
+    <!-- Tarjeta con lista rápida de las 6 emisoras -->
+    <div class="station-list-card" id="stationListCard">
+      <!-- Generado dinámicamente -->
+    </div>
+
+  </div>
+
+  <!-- Toast notificación emergente -->
+  <div class="toast-msg" id="toastMsg">¡Código HTML copiado al portapapeles!</div>
+
+  <audio id="radioAudio" preload="none" crossorigin="anonymous"></audio>
+
+  <script>
+    // Las 6 emisoras de la consulta con sus URLs directas de audio (/stream)
+    const STATIONS = [
+      { name: "LA TOXICA RADIO", url: "https://sonicpanel.streamsolutions.us:10960/stream", port: "10960", shortName: "TOXICA" },
+      { name: "BACHATA Y MAS", url: "https://sonicpanel.streamsolutions.us:10930/stream", port: "10930", shortName: "BACHATA" },
+      { name: "SALSA Y SON", url: "https://sonicpanel.streamsolutions.us:10939/stream", port: "10939", shortName: "SALSA" },
+      { name: "POPULAR", url: "https://sonicpanel.streamsolutions.us:10956/stream", port: "10956", shortName: "POPULAR" },
+      { name: "POP 80 Y 90", url: "https://sonicpanel.streamsolutions.us:10953/stream", port: "10953", shortName: "POP 80/90" },
+      { name: "ROMANTICA", url: "https://sonicpanel.streamsolutions.us:10947/stream", port: "10947", shortName: "ROMANTICA" }
+    ];
+
+    const audio = document.getElementById("radioAudio");
+    const playBtn = document.getElementById("playBtn");
+    const iconPlay = document.getElementById("iconPlay");
+    const iconPause = document.getElementById("iconPause");
+    const playLabel = document.getElementById("playLabel");
+
+    const lcdClock = document.getElementById("lcdClock");
+    const lcdMainText = document.getElementById("lcdMainText");
+    const lcdSubText = document.getElementById("lcdSubText");
+    const indLive = document.getElementById("indLive");
+    const indSlot = document.getElementById("indSlot");
+
+    const volumeDial = document.getElementById("volumeDial");
+    const volumeKnob = document.getElementById("volumeKnob");
+    const knobVolText = document.getElementById("knobVolText");
+    const volSlider = document.getElementById("volSlider");
+    const volPercentLabel = document.getElementById("volPercentLabel");
+    const volDown = document.getElementById("volDown");
+    const volUp = document.getElementById("volUp");
+    const btnMute = document.getElementById("btnMute");
+    const btnSrc = document.getElementById("btnSrc");
+
+    const presetButtons = document.querySelectorAll(".preset-btn");
+    const eqBars = document.querySelectorAll(".eq-bar");
+    const stationListCard = document.getElementById("stationListCard");
+    const btnCopyCode = document.getElementById("btnCopyCode");
+    const toastMsg = document.getElementById("toastMsg");
+
+    let currentIndex = 0;
+    let isPlaying = false;
+    let isMuted = false;
+    let currentVolume = 80;
+    let eqInterval = null;
+
+    // Renderizar la lista rápida inferior
+    function renderStationList() {
+      stationListCard.innerHTML = STATIONS.map((st, i) => `
+        <div class="station-item ${i === currentIndex ? 'active-item' : ''}" onclick="selectStation(${i}, true)">
+          <div class="station-badge">${i + 1}</div>
+          <div class="station-details">
+            <div class="station-title">${st.name}</div>
+            <div class="station-port">Puerto: :${st.port}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function buildStreamUrl(rawUrl) {
+      const sep = rawUrl.includes("?") ? "&" : "?";
+      return `${rawUrl}${sep}nocache=${Date.now()}`;
+    }
+
+    // Actualizar reloj digital
+    function updateClock() {
+      const now = new Date();
+      const hrs = String(now.getHours()).padStart(2, "0");
+      const mins = String(now.getMinutes()).padStart(2, "0");
+      lcdClock.textContent = `${hrs}:${mins}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function setLcdDisplay(main, sub, scroll = false) {
+      lcdMainText.textContent = main;
+      lcdSubText.textContent = sub;
+      if (scroll) {
+        lcdMainText.classList.remove("static-text");
+      } else {
+        lcdMainText.classList.add("static-text");
+      }
+    }
+
+    function updateStationButtons() {
+      presetButtons.forEach((btn, idx) => {
+        btn.classList.toggle("active-preset", idx === currentIndex);
+      });
+      indSlot.textContent = `CH ${currentIndex + 1}`;
+      renderStationList();
+    }
+
+    function selectStation(index, autoPlay = isPlaying) {
+      currentIndex = (index + STATIONS.length) % STATIONS.length;
+      const station = STATIONS[currentIndex];
+      updateStationButtons();
+
+      if (autoPlay) {
+        setLcdDisplay(station.name, `CONECTANDO :${station.port}...`, false);
+        audio.src = buildStreamUrl(station.url);
+        audio.play().then(() => {
+          isPlaying = true;
+          updatePlayUI(true);
+          setLcdDisplay(`${station.name} • EN VIVO`, `PUERTO ${station.port} • STEREO`, true);
+          startVisualizer();
+        }).catch(() => {
+          setLcdDisplay(station.name, "CONECTANDO...", false);
+          updatePlayUI(true);
+          startVisualizer();
+        });
+      } else {
+        setLcdDisplay(station.name, `CANAL ${currentIndex + 1} • PULSA PLAY`, false);
+      }
+    }
+
+    // Gestión del volumen
+    function setVolume(val) {
+      currentVolume = Math.max(0, Math.min(100, Math.round(val)));
+      audio.volume = currentVolume / 100;
+      volSlider.value = currentVolume;
+      volPercentLabel.textContent = `${currentVolume}%`;
+      
+      if (isMuted) {
+        knobVolText.textContent = "MUTE";
+      } else {
+        knobVolText.textContent = `${currentVolume}`;
+      }
+
+      const angle = -135 + (currentVolume / 100) * 270;
+      volumeKnob.style.transform = `rotate(${angle}deg)`;
+      knobVolText.style.transform = `rotate(${-angle}deg)`;
+
+      if (currentVolume > 0 && isMuted) {
+        isMuted = false;
+        audio.muted = false;
+        btnMute.classList.remove("is-muted");
+      }
+    }
+    setVolume(80);
+
+    volSlider.addEventListener("input", (e) => {
+      setVolume(e.target.value);
+      showTempLcd(`VOLUMEN: ${currentVolume}`, STATIONS[currentIndex].name);
+    });
+
+    volDown.addEventListener("click", () => {
+      setVolume(currentVolume - 5);
+      showTempLcd(`VOLUMEN: ${currentVolume}`, STATIONS[currentIndex].name);
+    });
+
+    volUp.addEventListener("click", () => {
+      setVolume(currentVolume + 5);
+      showTempLcd(`VOLUMEN: ${currentVolume}`, STATIONS[currentIndex].name);
+    });
+
+    btnMute.addEventListener("click", () => {
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+      btnMute.classList.toggle("is-muted", isMuted);
+      knobVolText.textContent = isMuted ? "MUTE" : `${currentVolume}`;
+      showTempLcd(isMuted ? "AUDIO SILENCIADO" : `VOLUMEN: ${currentVolume}`, STATIONS[currentIndex].name);
+    });
+
+    // Control táctil/arrastre perilla giratoria
+    let isDraggingDial = false;
+    let startY = 0;
+    let startVol = 80;
+
+    function startDialDrag(clientY) {
+      isDraggingDial = true;
+      startY = clientY;
+      startVol = currentVolume;
+    }
+
+    function moveDialDrag(clientY) {
+      if (!isDraggingDial) return;
+      const deltaY = startY - clientY;
+      setVolume(startVol + deltaY * 0.6);
+    }
+
+    volumeDial.addEventListener("mousedown", (e) => startDialDrag(e.clientY));
+    window.addEventListener("mousemove", (e) => moveDialDrag(e.clientY));
+    window.addEventListener("mouseup", () => { isDraggingDial = false; });
+
+    volumeDial.addEventListener("touchstart", (e) => {
+      startDialDrag(e.touches[0].clientY);
+    }, { passive: true });
+
+    window.addEventListener("touchmove", (e) => {
+      if (isDraggingDial) moveDialDrag(e.touches[0].clientY);
+    }, { passive: true });
+
+    window.addEventListener("touchend", () => { isDraggingDial = false; });
+
+    let tempTimeout = null;
+    function showTempLcd(main, sub) {
+      clearTimeout(tempTimeout);
+      setLcdDisplay(main, sub, false);
+      tempTimeout = setTimeout(() => {
+        const station = STATIONS[currentIndex];
+        if (isPlaying) {
+          setLcdDisplay(`${station.name} • EN VIVO`, `PUERTO ${station.port} • STEREO`, true);
+        } else {
+          setLcdDisplay(station.name, `CANAL ${currentIndex + 1} • PULSA PLAY`, false);
+        }
+      }, 1500);
+    }
+
+    function togglePlay() {
+      const station = STATIONS[currentIndex];
+      if (!isPlaying) {
+        setLcdDisplay(station.name, `CONECTANDO :${station.port}...`, false);
+        audio.src = buildStreamUrl(station.url);
+        audio.play().then(() => {
+          isPlaying = true;
+          updatePlayUI(true);
+          setLcdDisplay(`${station.name} • EN VIVO`, `PUERTO ${station.port} • STEREO`, true);
+          startVisualizer();
+        }).catch(() => {
+          isPlaying = true;
+          updatePlayUI(true);
+          setLcdDisplay(`${station.name} • EN VIVO`, `REPRODUCIENDO EMISORA`, true);
+          startVisualizer();
+        });
+      } else {
+        audio.pause();
+        audio.removeAttribute("src");
+        audio.load();
+        isPlaying = false;
+        updatePlayUI(false);
+        stopVisualizer();
+        setLcdDisplay(station.name, "EN PAUSA • PULSA PLAY", false);
+      }
+    }
+
+    function updatePlayUI(playing) {
+      if (playing) {
+        playBtn.classList.add("is-playing");
+        iconPlay.style.display = "none";
+        iconPause.style.display = "block";
+        playLabel.textContent = "PAUSE";
+        indLive.classList.add("live-on");
+      } else {
+        playBtn.classList.remove("is-playing");
+        iconPlay.style.display = "block";
+        iconPause.style.display = "none";
+        playLabel.textContent = "PLAY";
+        indLive.classList.remove("live-on");
+      }
+    }
+
+    playBtn.addEventListener("click", togglePlay);
+
+    btnSrc.addEventListener("click", () => {
+      selectStation(currentIndex + 1, true);
+    });
+
+    presetButtons.forEach((btn, idx) => {
+      btn.addEventListener("click", () => {
+        selectStation(idx, true);
+      });
+    });
+
+    // Visualizador de espectro animado en la pantalla LCD
+    function startVisualizer() {
+      stopVisualizer();
+      eqInterval = setInterval(() => {
+        eqBars.forEach((bar) => {
+          const height = Math.floor(Math.random() * 14) + 3;
+          bar.style.height = `${height}px`;
+        });
+      }, 100);
+    }
+
+    function stopVisualizer() {
+      clearInterval(eqInterval);
+      eqBars.forEach(bar => bar.style.height = "3px");
+    }
+
+    // Función para copiar el código HTML completo al portapapeles
+    function copyHTMLCode() {
+      const code = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const tempTextArea = document.createElement("textarea");
+      tempTextArea.value = code;
+      tempTextArea.style.position = "fixed";
+      tempTextArea.style.left = "-9999px";
+      tempTextArea.style.top = "0";
+      document.body.appendChild(tempTextArea);
+      tempTextArea.focus();
+      tempTextArea.select();
+
+      let successful = false;
+      try {
+        successful = document.execCommand('copy');
+      } catch (err) {
+        successful = false;
+      }
+      document.body.removeChild(tempTextArea);
+
+      showToast(successful ? "¡Código HTML copiado al portapapeles!" : "Copia completada.");
+    }
+
+    function showToast(message) {
+      toastMsg.textContent = message;
+      toastMsg.classList.add("show");
+      setTimeout(() => {
+        toastMsg.classList.remove("show");
+      }, 2500);
+    }
+
+    btnCopyCode.addEventListener("click", copyHTMLCode);
+
+    renderStationList();
+  </script>
+</body>
+</html>
